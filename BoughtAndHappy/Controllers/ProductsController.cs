@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BoughtAndHappy.Data;
+﻿using BoughtAndHappy.Data;
 using BoughtAndHappy.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoughtAndHappy.Controllers
 {
@@ -15,9 +15,17 @@ namespace BoughtAndHappy.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductCategories? category)
         {
-            return View(await _context.Products.ToListAsync());
+            var products = _context.Products.AsQueryable();
+
+            if (category.HasValue)
+            {
+                products = products.Where(p => p.Category == category);
+                ViewBag.SelectedCategory = Convert.ToByte(category);
+            }
+
+            return View(await products.ToListAsync());
         }
 
         // GET: Products/Details/5

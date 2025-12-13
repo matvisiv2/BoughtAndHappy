@@ -9,6 +9,24 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form method="get">
+    <select name="category"
+            asp-items="Html.GetEnumSelectList<ProductCategories>()"
+            class="form-control"
+            onchange="this.form.submit()">
+        <option value="">All categories</option>
+    </select>
+</form>
+
+@section Scripts {
+    <script>
+        // set certain category after reload
+        // document.querySelector('select[name="category"]').value = '@ViewBag.SelectedCategory';
+        document.querySelector('select[name="category"]').value = '@ViewBag.SelectedCategory';
+    </script>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -28,26 +46,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

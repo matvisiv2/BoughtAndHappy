@@ -19,6 +19,7 @@ namespace BoughtAndHappy.Migrations
                 .HasAnnotation("ProductVersion", "10.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "product_categories", new[] { "electronics", "clothing", "home_goods", "books", "toys", "groceries", "health_and_beauty", "sports_and_outdoors", "automotive", "computers_and_laptops", "others" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("BoughtAndHappy.Models.Product", b =>
@@ -29,8 +30,9 @@ namespace BoughtAndHappy.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Category")
-                        .HasColumnType("integer");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -46,6 +48,24 @@ namespace BoughtAndHappy.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "ComputersAndLaptops",
+                            Name = "Laptop",
+                            Price = 500m,
+                            Stock = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "Clothing",
+                            Name = "T-shirt",
+                            Price = 10m,
+                            Stock = 50
+                        });
                 });
 #pragma warning restore 612, 618
         }
