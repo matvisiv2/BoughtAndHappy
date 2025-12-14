@@ -1,0 +1,24 @@
+﻿@model List<Order>
+
+<h2>Orders</h2>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th></th>
+    </tr>
+
+    @foreach (var o in Model)
+    {
+        <tr>
+            <td>@o.Id</td>
+            <td>@o.CreatedAt</td>
+            <td>@o.TotalPrice</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@o.Id">Details</a>
+            </td>
+        </tr>
+    }
+</table>

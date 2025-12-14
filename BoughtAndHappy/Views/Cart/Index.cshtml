@@ -1,9 +1,4 @@
-﻿@* @page
-@model BoughtAndHappy.Views.Cart.IndexModel
-@{
-} *@
-
-@using BoughtAndHappy.DTO
+﻿@using BoughtAndHappy.DTO
 
 @model List<CartItem>
 
@@ -37,4 +32,10 @@ else
             </tr>
         }
     </table>
+
+    <a asp-controller="Checkout"
+       asp-action="Index"
+       class="btn btn-success">
+        Proceed to checkout
+    </a>
 }

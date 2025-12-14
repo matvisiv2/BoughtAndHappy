@@ -1,0 +1,26 @@
+﻿@using BoughtAndHappy.DTO
+
+@model List<CartItem>
+
+<h2>Checkout</h2>
+
+<table class="table">
+    <tr>
+        <th>Product</th>
+        <th>Qty, pcs</th>
+        <th>Total, $</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Quantity</td>
+            <td>@(item.Price* item.Quantity)</td>
+        </tr>
+    }
+</table>
+
+<form asp-action="PlaceOrder" method="post">
+    <button class="btn btn-success">Place order</button>
+</form>

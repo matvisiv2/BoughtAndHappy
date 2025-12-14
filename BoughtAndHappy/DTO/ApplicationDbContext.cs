@@ -10,6 +10,10 @@ namespace BoughtAndHappy.DTO
 
         public DbSet<Product> Products => Set<Product>();
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
@@ -20,6 +24,13 @@ namespace BoughtAndHappy.DTO
                 .HasConversion<string>();
 
             base.OnModelCreating(modelBuilder);
+
+            // explicitly setup relations
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Items)
+                .WithOne(i => i.Order)
+                .HasForeignKey(i => i.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>().HasData(
                 // Electronics

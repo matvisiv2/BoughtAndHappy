@@ -1,0 +1,40 @@
+﻿@model Order
+
+<h2>Order #@Model.Id</h2>
+
+<p>Date: @Model.CreatedAt</p>
+<p>Total: @Model.TotalPrice</p>
+
+<table class="table">
+    <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Sum</th>
+    </tr>
+
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.ProductName</td>
+            <td>@item.Price</td>
+            <td>@item.Quantity</td>
+            <td>@(item.Price* item.Quantity)</td>
+        </tr>
+    }
+</table>
+
+<form asp-action="UpdateStatus" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <select name="status" class="form-control">
+        @foreach (var s in Enum.GetValues<OrderStatus>())
+        {
+            <option value="@s" selected="@(s == Model.Status)">
+                @s
+            </option>
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary mt-2">Update status</button>
+</form>
