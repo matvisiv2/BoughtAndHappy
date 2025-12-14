@@ -15,7 +15,7 @@ namespace BoughtAndHappy.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(ProductCategories? category)
+        public async Task<IActionResult> Index(string? searchText, ProductCategories? category)
         {
             var products = _context.Products.AsQueryable();
 
@@ -23,6 +23,12 @@ namespace BoughtAndHappy.Controllers
             {
                 products = products.Where(p => p.Category == category);
                 ViewBag.SelectedCategory = Convert.ToByte(category);
+            }
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                products = products.Where(p => p.Name.Contains(searchText));
+                ViewBag.SearchText = searchText;
             }
 
             return View(await products.ToListAsync());
