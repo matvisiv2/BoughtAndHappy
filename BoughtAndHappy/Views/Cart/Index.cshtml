@@ -1,0 +1,40 @@
+﻿@* @page
+@model BoughtAndHappy.Views.Cart.IndexModel
+@{
+} *@
+
+@using BoughtAndHappy.DTO
+
+@model List<CartItem>
+
+<h2>Your Cart</h2>
+
+@if (!Model.Any())
+{
+    <p>Cart is empty</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Product</th>
+            <th>Price, $</th>
+            <th>Qty, pcs</th>
+            <th>Total, $</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>
+                    <a asp-action="Minus" asp-route-id="@item.ProductId"><img src="~/minus.svg" /></a>
+                    @item.Quantity
+                    <a asp-action="Plus" asp-route-id="@item.ProductId"><img src="~/plus.svg" /></a>
+                </td>
+                <td>@(item.Price* item.Quantity)</td>
+            </tr>
+        }
+    </table>
+}

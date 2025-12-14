@@ -1,4 +1,4 @@
-﻿using BoughtAndHappy.Data;
+﻿using BoughtAndHappy.DTO;
 using BoughtAndHappy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

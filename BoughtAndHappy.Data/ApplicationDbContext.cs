@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BoughtAndHappy.Models;
-
 namespace BoughtAndHappy.Data
 {
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
-
-        //public DbSet<Product> Products { get; set; }
 
         public DbSet<Product> Products => Set<Product>();
 

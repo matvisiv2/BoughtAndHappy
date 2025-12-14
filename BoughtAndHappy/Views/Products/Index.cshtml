@@ -84,6 +84,13 @@
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
+                <td>
+                    <a asp-controller="Cart"
+                       asp-action="Add"
+                       asp-route-id="@item.Id">
+                        <img src="~/addToShoppingCart.svg" />
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
