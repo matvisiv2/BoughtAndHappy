@@ -3,8 +3,9 @@ using BoughtAndHappy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoughtAndHappy.Controllers
+namespace BoughtAndHappy.Controllers.Admin
 {
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -74,7 +75,7 @@ namespace BoughtAndHappy.Controllers
         }
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -134,8 +135,13 @@ namespace BoughtAndHappy.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }

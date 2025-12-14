@@ -1,0 +1,93 @@
+﻿@model IEnumerable<BoughtAndHappy.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Products</h1>
+    </div>
+
+    <form method="get" class="form-search">
+        <div class="form-group form-row">
+            <label class="form-label">Seach by Category</label>
+            <select name="category"
+                    asp-items="Html.GetEnumSelectList<ProductCategories>()"
+                    class="form-control">
+                <option value="">All categories</option>
+            </select>
+        </div>
+
+        <div class="form-group form-row">
+            <label class="form-label">Seach by Name</label>
+            <input name="searchText"
+                   class="form-control" />
+        </div>
+
+        <div class="form-group form-row">
+            <a class="btn btn-outline-secondary" asp-action="Index">Reset</a>
+            <input type="submit" value="Apply" class="btn btn-primary" />
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        // set certain category after reload
+        document.querySelector('select[name="category"]').value = '@ViewBag.SelectedCategory';
+        // set last entered text after reload
+        document.querySelector('input[name="searchText"]').value = '@ViewBag.SearchText';
+    </script>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>Actions</th>
+            <th>Add to Cart</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+                <td>
+                    <a asp-controller="Cart"
+                       asp-action="Add"
+                       asp-route-id="@item.Id">
+                        <img src="~/addToShoppingCart.svg" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -29,7 +29,7 @@ namespace BoughtAndHappy.Controllers
                 _cart.AddToCart(product);
             }
 
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index", "Shop");
         }
 
         public IActionResult Plus(int id)
