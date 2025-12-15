@@ -50,3 +50,7 @@ body {
 .form-label {
     white-space: nowrap;
 }
+
+.text-align-right {
+    text-align: right;
+}

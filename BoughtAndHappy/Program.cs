@@ -42,23 +42,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseSession();
-
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Products}/{action=Index}/{id?}")
-//    .WithStaticAssets();
-
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    pattern: "{area:exists}/{controller=Products}/{action=Index}/{id?}"
 );
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Shop}/{action=Index}/{id?}"

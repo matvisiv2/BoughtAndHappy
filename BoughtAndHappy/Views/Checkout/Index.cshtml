@@ -19,6 +19,12 @@
             <td>@(item.Price* item.Quantity)</td>
         </tr>
     }
+
+    <tr>
+        <td></td>
+        <td class="fw-bold text-align-right">Sum:</td>
+        <td>@(Model.Sum(i => (i.Price * i.Quantity)))</td>
+    </tr>
 </table>
 
 <form asp-action="PlaceOrder" method="post">
