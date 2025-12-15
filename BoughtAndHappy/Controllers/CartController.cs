@@ -44,6 +44,14 @@ namespace BoughtAndHappy.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public IActionResult UpdateQuantity(int productId, int quantity)
+        {
+            _cart.UpdateQuantity(productId, quantity);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult Remove(int id)
         {
             _cart.RemoveFromCart(id);

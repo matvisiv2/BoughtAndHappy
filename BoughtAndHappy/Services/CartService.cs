@@ -76,6 +76,25 @@ namespace BoughtAndHappy.Services
             }
         }
 
+        public void UpdateQuantity(int productId, int quantity)
+        {
+            var cart = GetCart();
+            var item = cart.FirstOrDefault(i => i.ProductId == productId);
+
+            if (item != null)
+            {
+                if (item.Quantity <= 0)
+                {
+                    cart.Remove(item);
+                }
+                else
+                {
+                    item.Quantity = quantity;
+                }
+                SaveCart(cart);
+            }
+        }
+
         public int TotalItems() => GetCart().Sum(p => p.Quantity);
 
         public decimal TotalPrice() => GetCart().Sum(p => p.Price * p.Quantity);

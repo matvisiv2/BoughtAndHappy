@@ -38,11 +38,18 @@
             <a class="text-decoration-none fw-normal" asp-action="Index">Back to List</a>
         </dt>
         <dd class="col-sm-10 mt-5">
-            <a asp-controller="Cart"
-               asp-action="Add"
-               asp-route-id="@Model.Id">
-                Add to cart<img src="~/addToShoppingCart.svg" />
-            </a>
+            @if (Model.Stock <= 0)
+            {
+                <p class="text-danger">out of stock</p>
+            }
+            else
+            {
+                <a asp-controller="Cart"
+                   asp-action="Add"
+                   asp-route-id="@Model.Id">
+                    Add to cart <img src="~/addToShoppingCart.svg" />
+                </a>
+            }
         </dd>
     </dl>
 </div>

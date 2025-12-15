@@ -24,9 +24,26 @@ else
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>
-                    <a asp-action="Minus" asp-route-id="@item.ProductId"><img src="~/minus.svg" /></a>
+                    @* <a asp-action="Minus" asp-route-id="@item.ProductId"><img src="~/minus.svg" /></a>
                     @item.Quantity
-                    <a asp-action="Plus" asp-route-id="@item.ProductId"><img src="~/plus.svg" /></a>
+                    <a asp-action="Plus" asp-route-id="@item.ProductId"><img src="~/plus.svg" /></a> *@
+                    <form asp-controller="Cart"
+                        asp-action="UpdateQuantity"
+                        method="post"
+                        class="d-inline">
+                        
+                        <input type="hidden"
+                            name="productId"
+                            value="@item.ProductId"/>
+
+                        <input type="number"
+                            name="quantity"
+                            min="0"
+                            value="@item.Quantity"
+                            class="form-control d-inline w-25"
+                            onchange="this.form.submit()"/>
+
+                    </form>
                 </td>
                 <td>@(item.Price* item.Quantity)</td>
             </tr>
