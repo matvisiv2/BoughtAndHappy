@@ -54,6 +54,8 @@ namespace BoughtAndHappy.Controllers
 
             _cart.Clear();
 
+            // TODO: dicrease items stock
+
             return RedirectToAction(nameof(Success), new { id = order.Id });
         }
 
