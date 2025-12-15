@@ -1,5 +1,15 @@
 ﻿@using BoughtAndHappy.DTO
 
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}
+
 @model List<CartItem>
 
 <h2>Checkout</h2>
@@ -22,7 +32,7 @@
 
     <tr>
         <td></td>
-        <td class="fw-bold text-align-right">Sum:</td>
+        <td class="fw-bold text-end">Sum:</td>
         <td>@(Model.Sum(i => (i.Price * i.Quantity)))</td>
     </tr>
 </table>
@@ -30,3 +40,7 @@
 <form asp-action="PlaceOrder" method="post">
     <button class="btn btn-success">Place order</button>
 </form>
+
+<a asp-controller="Cart" asp-action="Index" class="btn btn-secondary mt-3">
+    Back to cart
+</a>

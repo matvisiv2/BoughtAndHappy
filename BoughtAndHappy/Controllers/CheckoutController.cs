@@ -37,26 +37,65 @@ namespace BoughtAndHappy.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
-            var order = new Order
+            // stock check  and place order
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
             {
-                TotalPrice = cart.Sum(i => i.Price * i.Quantity),
-                Items = cart.Select(i => new OrderItem
+                // get all products
+                var productsIds = cart.Select(i => i.ProductId).ToList();
+
+                var products = _context.Products
+                    .Where(p => productsIds.Contains(p.Id))
+                    .ToList();
+
+                // stock check
+                foreach (var item in cart)
                 {
-                    ProductId = i.ProductId,
-                    ProductName = i.Name!,
-                    Price = i.Price,
-                    Quantity = i.Quantity
-                }).ToList()
-            };
+                    var product = products.First(p => p.Id == item.ProductId);
 
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+                    if (product.Stock < item.Quantity)
+                    {
+                        ModelState.AddModelError(string.Empty, $"Not enough stock for {product.Name}");
+                        return View("Index", cart);
+                    }
+                }
 
-            _cart.Clear();
+                // decrease stock
+                foreach (var item in cart)
+                {
+                    var product = products.First(p => p.Id == item.ProductId);
+                    product.Stock -= item.Quantity;
+                }
 
-            // TODO: dicrease items stock
+                // place order
+                var order = new Order
+                {
+                    TotalPrice = cart.Sum(i => i.Price * i.Quantity),
+                    Items = cart.Select(i => new OrderItem
+                    {
+                        ProductId = i.ProductId,
+                        ProductName = i.Name!,
+                        Price = i.Price,
+                        Quantity = i.Quantity
+                    }).ToList()
+                };
 
-            return RedirectToAction(nameof(Success), new { id = order.Id });
+                _context.Orders.Add(order);
+
+                // save new stock data and new order
+                _context.SaveChanges();
+                transaction.Commit();
+
+                _cart.Clear();
+
+                return RedirectToAction(nameof(Success), new { id = order.Id });
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public IActionResult Success(int id)

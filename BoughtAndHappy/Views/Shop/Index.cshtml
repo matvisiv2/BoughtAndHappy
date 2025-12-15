@@ -81,11 +81,18 @@
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>
                 <td>
-                    <a asp-controller="Cart"
-                       asp-action="Add"
-                       asp-route-id="@item.Id">
-                        <img src="~/addToShoppingCart.svg" />
-                    </a>
+                    @if (item.Stock <= 0)
+                    {
+                        <p class="text-danger">out of stock</p>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cart"
+                           asp-action="Add"
+                           asp-route-id="@item.Id">
+                            <img src="~/addToShoppingCart.svg" />
+                        </a>
+                    }
                 </td>
             </tr>
         }
