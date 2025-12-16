@@ -1,4 +1,4 @@
-﻿namespace BoughtAndHappy.DTO
+﻿namespace BoughtAndHappy.Data
 {
     public class CartItem
     {

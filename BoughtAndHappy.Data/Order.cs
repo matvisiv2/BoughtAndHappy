@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BoughtAndHappy.Models
+namespace BoughtAndHappy.Data
 {
     public class Order
     {

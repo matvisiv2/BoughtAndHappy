@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BoughtAndHappy.Models;
 
-namespace BoughtAndHappy.DTO
+namespace BoughtAndHappy.Data
 {
     public class ApplicationDbContext : DbContext
     {

@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using BoughtAndHappy.Models;
+using BoughtAndHappy.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoughtAndHappy.Controllers

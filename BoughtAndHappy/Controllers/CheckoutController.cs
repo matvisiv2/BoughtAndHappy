@@ -1,5 +1,4 @@
-﻿using BoughtAndHappy.DTO;
-using BoughtAndHappy.Models;
+﻿using BoughtAndHappy.Data;
 using BoughtAndHappy.Services;
 using Microsoft.AspNetCore.Mvc;
 

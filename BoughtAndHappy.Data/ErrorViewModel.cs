@@ -1,4 +1,4 @@
-namespace BoughtAndHappy.Models
+namespace BoughtAndHappy.Data
 {
     public class ErrorViewModel
     {

@@ -1,5 +1,4 @@
-﻿using BoughtAndHappy.DTO;
-using BoughtAndHappy.Models;
+﻿using BoughtAndHappy.Data;
 
 namespace BoughtAndHappy.Services
 {

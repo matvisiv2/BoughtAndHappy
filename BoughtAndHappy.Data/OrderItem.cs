@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BoughtAndHappy.Models
+namespace BoughtAndHappy.Data
 {
     public class OrderItem
     {

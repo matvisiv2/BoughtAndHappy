@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="BoughtAndHappy.Data/BoughtAndHappy.Data.csproj" Id="f41a6bbc-ad2c-4f68-a2fe-ad1b36066cad" />
   <Project Path="BoughtAndHappy/BoughtAndHappy.csproj" />
 </Solution>

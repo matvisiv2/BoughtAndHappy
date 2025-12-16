@@ -1,6 +1,6 @@
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
-using BoughtAndHappy.DTO;
+using BoughtAndHappy.Data;
 using BoughtAndHappy.Services;
 
 // For currency
