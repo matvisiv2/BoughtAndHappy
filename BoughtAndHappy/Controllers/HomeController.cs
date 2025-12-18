@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using BoughtAndHappy.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace BoughtAndHappy.Controllers
 {

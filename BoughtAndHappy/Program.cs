@@ -1,9 +1,8 @@
-using System.Globalization;
-using Microsoft.EntityFrameworkCore;
 using BoughtAndHappy.Data;
-using BoughtAndHappy.Services;
-using Microsoft.EntityFrameworkCore.Storage;
 using BoughtAndHappy.Data.Seed;
+using BoughtAndHappy.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 // For currency
 var culture = new CultureInfo("en-US");
@@ -11,11 +10,21 @@ CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 var services = builder.Services;
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+services.AddDbContext<ApplicationDbContext>((options) =>
+{
+    switch (configuration["DatabaseProvider"])
+    {
+        case "Sqlite":
+            options.UseSqlite(configuration.GetConnectionString("Sqlite"));
+            break;
+        case "PostgreSql":
+            options.UseNpgsql(configuration.GetConnectionString("PostgreSql"));
+            break;
+    }
+});
 
 // turn on Session
 services.AddDistributedMemoryCache();
