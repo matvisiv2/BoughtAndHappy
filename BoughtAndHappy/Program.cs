@@ -2,6 +2,8 @@ using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using BoughtAndHappy.Data;
 using BoughtAndHappy.Services;
+using Microsoft.EntityFrameworkCore.Storage;
+using BoughtAndHappy.Data.Seed;
 
 // For currency
 var culture = new CultureInfo("en-US");
@@ -9,28 +11,36 @@ CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
 // turn on Session
-builder.Services.AddDistributedMemoryCache();
+services.AddDistributedMemoryCache();
 
-builder.Services.AddSession(options =>
+services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<CartService>();
+services.AddHttpContextAccessor();
+services.AddScoped<CartService>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+services.AddControllersWithViews();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    DatabaseSeeder.Seed(context);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
