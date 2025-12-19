@@ -1,10 +1,12 @@
 ﻿using BoughtAndHappy.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoughtAndHappy.Controllers.Admin
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -14,6 +16,7 @@ namespace BoughtAndHappy.Controllers.Admin
             _context = context;
         }
 
+        // GET: Admin/Orders
         public async Task<IActionResult> Index()
         {
             return View(
@@ -23,6 +26,7 @@ namespace BoughtAndHappy.Controllers.Admin
             );
         }
 
+        // GET: Admin/Orders/Details/5
         public async Task<IActionResult> Details(int id)
         {
             var order = await _context.Orders
@@ -37,6 +41,9 @@ namespace BoughtAndHappy.Controllers.Admin
             return View(order);
         }
 
+        // POST: Admin/Orders/ChangeStatus
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStatus(int id, OrderStatus status)
         {
             var order = await _context.Orders.FindAsync(id);

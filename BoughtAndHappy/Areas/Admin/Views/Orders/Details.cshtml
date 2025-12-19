@@ -24,6 +24,12 @@
             <td>@(item.Price* item.Quantity)</td>
         </tr>
     }
+    <tr>
+        <td></td>
+        <td></td>
+        <td class="fw-bold text-end">Sum:</td>
+        <td>@Model.TotalPrice</td>
+    </tr>
 </table>
 
 <form asp-action="UpdateStatus" method="post">

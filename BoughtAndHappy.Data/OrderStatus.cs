@@ -4,6 +4,7 @@
     {
         New,
         Paid,
+        Processing,
         Shipped,
         Completed,
         Cancelled
