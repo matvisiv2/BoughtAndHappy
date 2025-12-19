@@ -1,10 +1,13 @@
 ﻿using BoughtAndHappy.Data;
+using BoughtAndHappy.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoughtAndHappy.Controllers.Admin
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;

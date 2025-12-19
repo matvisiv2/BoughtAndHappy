@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BoughtAndHappy.Data
+namespace BoughtAndHappy.Data.Models
 {
     public class Product
     {

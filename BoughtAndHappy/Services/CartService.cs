@@ -1,4 +1,5 @@
 ﻿using BoughtAndHappy.Data;
+using BoughtAndHappy.Data.Models;
 
 namespace BoughtAndHappy.Services
 {

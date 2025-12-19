@@ -1,4 +1,8 @@
-﻿namespace BoughtAndHappy.Data.Seed
+﻿using BoughtAndHappy.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace BoughtAndHappy.Data.Seed
 {
     public static class DatabaseSeeder
     {
@@ -112,6 +116,30 @@
 
             context.Products.AddRange(products);
             context.SaveChanges();
+        }
+
+        public static async Task SeedAdminAsync(IServiceProvider services)
+        {
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            var admin = await userManager.FindByEmailAsync("admin@site.com");
+            if (admin == null)
+            {
+                admin = new ApplicationUser
+                {
+                    UserName = "admin@site.com",
+                    Email = "admin@site.com"
+                };
+
+                await userManager.CreateAsync(admin, "Admin123");
+                await userManager.AddToRoleAsync(admin, "Admin");
+            }
         }
     }
 }

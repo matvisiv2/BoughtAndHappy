@@ -1,6 +1,9 @@
 using BoughtAndHappy.Data;
+using BoughtAndHappy.Data.Models;
 using BoughtAndHappy.Data.Seed;
 using BoughtAndHappy.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -26,6 +29,10 @@ services.AddDbContext<ApplicationDbContext>((options) =>
     }
 });
 
+//var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");;
+//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
 // turn on Session
 services.AddDistributedMemoryCache();
 
@@ -38,9 +45,22 @@ services.AddSession(options =>
 
 services.AddHttpContextAccessor();
 services.AddScoped<CartService>();
+services.AddScoped<IEmailSender, DummyEmailSender>();
+
+services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
 
 // Add services to the container.
 services.AddControllersWithViews();
+services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -49,6 +69,13 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     DatabaseSeeder.Seed(context);
+    //await DatabaseSeeder.SeedAdminAsync(scope.ServiceProvider);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var servicess = scope.ServiceProvider;
+    await DatabaseSeeder.SeedAdminAsync(servicess);
 }
 
 // Configure the HTTP request pipeline.
@@ -62,8 +89,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapStaticAssets();
 app.MapControllerRoute(
     name: "areas",

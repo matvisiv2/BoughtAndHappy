@@ -1,6 +1,9 @@
 ﻿using BoughtAndHappy.Data;
+using BoughtAndHappy.Data.Models;
 using BoughtAndHappy.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BoughtAndHappy.Controllers
 {
@@ -27,6 +30,8 @@ namespace BoughtAndHappy.Controllers
             return View(cart);
         }
 
+        // If authorize - nonauthorize user cannot place order
+        //[Authorize]
         [HttpPost]
         public IActionResult PlaceOrder()
         {
@@ -70,6 +75,7 @@ namespace BoughtAndHappy.Controllers
                 // place order
                 var order = new Order
                 {
+                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                     TotalPrice = cart.Sum(i => i.Price * i.Quantity),
                     Items = cart.Select(i => new OrderItem
                     {
