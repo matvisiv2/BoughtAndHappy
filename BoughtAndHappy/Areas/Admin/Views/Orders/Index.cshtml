@@ -9,6 +9,7 @@
         <th>ID</th>
         <th>Date</th>
         <th>Total</th>
+        <th>Status</th>
         <th></th>
     </tr>
 
@@ -18,6 +19,7 @@
             <td>@o.Id</td>
             <td>@o.CreatedAt</td>
             <td>@o.TotalPrice</td>
+            <td><div class="status-@o.Status.ToString().ToLower()">@o.Status</div></td>
             <td>
                 <a asp-action="Details" asp-route-id="@o.Id">Details</a>
             </td>

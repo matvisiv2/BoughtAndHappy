@@ -58,3 +58,38 @@ td {
 .text-align-right {
     text-align: right;
 }
+
+.status-new,
+.status-paid,
+.status-processing,
+.status-shipped,
+.status-completed,
+.status-cancelled
+{
+    width: 140px;
+    border-radius: 6px;
+    padding: 2px 0;
+    text-align: center;
+    background-color: #d5d5d5;
+}
+
+.status-paid,
+.status-processing,
+.status-shipped
+{
+    border: 2px dashed #37f342;
+}
+
+.status-completed {
+    background-color: #8ff095;
+}
+
+.status-cancelled {
+    background-color: #f55555;
+}
+
+.sub-table {
+    th, td {
+        border: 1px solid black; /* Sets a 1px solid black border on all table elements */
+    }
+}

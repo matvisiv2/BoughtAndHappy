@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BoughtAndHappy.Data.Models
 {
     public class Order
     {
+        [DisplayName("Order number")]
         public int Id { get; set; }
 
         public string? UserId { get; set; } = null;

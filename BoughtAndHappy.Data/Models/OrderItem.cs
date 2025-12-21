@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BoughtAndHappy.Data.Models
@@ -16,6 +17,7 @@ namespace BoughtAndHappy.Data.Models
         [Required]
         public int ProductId { get; set; }
 
+        [DisplayName("Order item")]
         [Required, MaxLength(100)]
         public string ProductName { get; set; } = null!;
 
