@@ -118,7 +118,7 @@ namespace BoughtAndHappy.Data.Seed
             context.SaveChanges();
         }
 
-        public static async Task SeedAdminAndUsersAsync(IServiceProvider services)
+        public static async Task SeedAdminAndUsersAsync(IServiceProvider services, ApplicationDbContext context)
         {
             var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
@@ -141,32 +141,76 @@ namespace BoughtAndHappy.Data.Seed
                 await userManager.AddToRoleAsync(admin, "Admin");
             }
 
-            var userSneekers = await userManager.FindByEmailAsync("Sneekers@gmail.com");
-            if (userSneekers == null)
+
+            var users = new[]
             {
-                var users = new[]
-                {
                     new {Email = "Sneekers@gmail.com", Password = "Sneekers@gmail.com"},
                     new {Email = "Mars@gmail.com", Password = "Mars@gmail.com"},
                     new {Email = "Bounty@gmail.com", Password = "Bounty@gmail.com"}
                 };
 
-                foreach (var u in users)
+            foreach (var u in users)
+            {
+                var user = await userManager.FindByEmailAsync(u.Email);
+                if (user == null)
                 {
-                    var user = await userManager.FindByEmailAsync(u.Email);
-                    if (user == null)
+                    user = new ApplicationUser
                     {
-                        user = new ApplicationUser
-                        {
-                            UserName = u.Email,
-                            Email = u.Email,
-                            EmailConfirmed = true
-                        };
+                        UserName = u.Email,
+                        Email = u.Email,
+                        EmailConfirmed = true
+                    };
 
-                        await userManager.CreateAsync(user, u.Password);
-                    }
+                    await userManager.CreateAsync(user, u.Password);
                 }
             }
+
+            if (context.Orders.Any())
+            {
+                return;
+            }
+
+            Random random = new Random();
+            foreach (var u in users)
+            {
+                var customer = await userManager.FindByEmailAsync(u.Email);
+
+                if (customer == null)
+                {
+                    continue;
+                }
+
+                int ordersNumber = random.Next(2, 10);
+
+                for (int i = 0; i < ordersNumber; i++)
+                {
+                    var products = context.Products.Take(random.Next(1, 10)).ToList();
+
+                    var order = new Order
+                    {
+                        UserId = customer.Id,
+                        CreatedAt = DateTime.UtcNow.AddDays(-1),
+                        Status = (OrderStatus)random.Next((int)OrderStatus.New, (int)OrderStatus.Cancelled),
+                    };
+
+                    foreach (var product in products)
+                    {
+                        order.Items.Add(new OrderItem
+                        {
+                            ProductId = product.Id,
+                            ProductName = product.Name,
+                            Price = product.Price,
+                            Quantity = random.Next(1, 2)
+                        });
+                    }
+
+                    order.TotalPrice = order.Items.Sum(i => i.Price * i.Quantity);
+
+                    context.Orders.Add(order);
+                }
+            }
+
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -67,7 +67,7 @@ if (app.Environment.IsDevelopment())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
     DatabaseSeeder.Seed(context);
-    await DatabaseSeeder.SeedAdminAndUsersAsync(scope.ServiceProvider);
+    await DatabaseSeeder.SeedAdminAndUsersAsync(scope.ServiceProvider, context);
 }
 
 // Configure the HTTP request pipeline.
