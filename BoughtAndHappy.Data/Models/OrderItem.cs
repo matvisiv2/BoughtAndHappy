@@ -17,13 +17,15 @@ namespace BoughtAndHappy.Data.Models
         [Required]
         public int ProductId { get; set; }
 
-        [DisplayName("Order item")]
+        [DisplayName("Name")]
         [Required, MaxLength(100)]
         public string ProductName { get; set; } = null!;
 
+        [DisplayName("Price, $")]
         [Required]
         public decimal Price { get; set; }
 
+        [DisplayName("Quantity, pcs")]
         [Required]
         public int Quantity { get; set; }
     }

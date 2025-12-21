@@ -11,16 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoughtAndHappy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251218222807_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251221204025_InitialSqlite")]
+    partial class InitialSqlite
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("Npgsql:Enum:product_categories", "electronics,clothing,home_goods,books,toys,groceries,health_and_beauty,sports_and_outdoors,automotive,computers_and_laptops,others")
-                .HasAnnotation("ProductVersion", "10.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.1");
 
             modelBuilder.Entity("BoughtAndHappy.Data.Models.ApplicationUser", b =>
                 {

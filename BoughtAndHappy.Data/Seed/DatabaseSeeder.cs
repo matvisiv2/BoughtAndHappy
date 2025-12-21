@@ -118,7 +118,7 @@ namespace BoughtAndHappy.Data.Seed
             context.SaveChanges();
         }
 
-        public static async Task SeedAdminAsync(IServiceProvider services)
+        public static async Task SeedAdminAndUsersAsync(IServiceProvider services)
         {
             var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
@@ -139,6 +139,33 @@ namespace BoughtAndHappy.Data.Seed
 
                 await userManager.CreateAsync(admin, "Admin123");
                 await userManager.AddToRoleAsync(admin, "Admin");
+            }
+
+            var userSneekers = await userManager.FindByEmailAsync("Sneekers@gmail.com");
+            if (userSneekers == null)
+            {
+                var users = new[]
+                {
+                    new {Email = "Sneekers@gmail.com", Password = "Sneekers@gmail.com"},
+                    new {Email = "Mars@gmail.com", Password = "Mars@gmail.com"},
+                    new {Email = "Bounty@gmail.com", Password = "Bounty@gmail.com"}
+                };
+
+                foreach (var u in users)
+                {
+                    var user = await userManager.FindByEmailAsync(u.Email);
+                    if (user == null)
+                    {
+                        user = new ApplicationUser
+                        {
+                            UserName = u.Email,
+                            Email = u.Email,
+                            EmailConfirmed = true
+                        };
+
+                        await userManager.CreateAsync(user, u.Password);
+                    }
+                }
             }
         }
     }

@@ -15,9 +15,7 @@ namespace BoughtAndHappy.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("Npgsql:Enum:product_categories", "electronics,clothing,home_goods,books,toys,groceries,health_and_beauty,sports_and_outdoors,automotive,computers_and_laptops,others")
-                .HasAnnotation("ProductVersion", "10.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.1");
 
             modelBuilder.Entity("BoughtAndHappy.Data.Models.ApplicationUser", b =>
                 {

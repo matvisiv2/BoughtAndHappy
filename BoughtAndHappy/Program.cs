@@ -29,10 +29,6 @@ services.AddDbContext<ApplicationDbContext>((options) =>
     }
 });
 
-//var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");;
-//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-
 // turn on Session
 services.AddDistributedMemoryCache();
 
@@ -67,15 +63,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    DatabaseSeeder.Seed(context);
-    //await DatabaseSeeder.SeedAdminAsync(scope.ServiceProvider);
-}
 
-using (var scope = app.Services.CreateScope())
-{
-    var servicess = scope.ServiceProvider;
-    await DatabaseSeeder.SeedAdminAsync(servicess);
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    DatabaseSeeder.Seed(context);
+    await DatabaseSeeder.SeedAdminAndUsersAsync(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.

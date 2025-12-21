@@ -17,14 +17,16 @@ namespace BoughtAndHappy.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-                .HasPostgresEnum<ProductCategories>();
+            base.OnModelCreating(modelBuilder);
+
+            if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
+            {
+                modelBuilder.HasPostgresEnum<ProductCategories>();
+            }
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Category)
                 .HasConversion<string>();
-
-            base.OnModelCreating(modelBuilder);
 
             // explicitly setup relations
             modelBuilder.Entity<Order>()
