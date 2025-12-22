@@ -137,7 +137,7 @@ namespace BoughtAndHappy.Data.Seed
                     Email = "admin@site.com"
                 };
 
-                await userManager.CreateAsync(admin, "Admin123");
+                await userManager.CreateAsync(admin, "admin@site.com");
                 await userManager.AddToRoleAsync(admin, "Admin");
             }
 
